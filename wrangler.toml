@@ -1,7 +1,7 @@
 name = "bg-drone-map"
 compatibility_date = "2024-11-01"
 
-# Static-assets-only Worker: no Worker script (`main`), just the built site.
-# `npx wrangler deploy` uploads everything under ./public and serves it.
-[assets]
-directory = "./public"
+# Cloudflare Pages project: Pages serves the built static site from this
+# directory. Deploy with `npx wrangler pages deploy public`, or connect the
+# repo as a Pages project in the dashboard (build command `npm run build`).
+pages_build_output_dir = "public"

@@ -75,31 +75,31 @@ property, which the map renders as accurate metric circles.
 
 ## Deploy to Cloudflare Pages
 
-The site is a static bundle in `public/`, deployed as a Cloudflare **Worker
-serving static assets** (configured in `wrangler.toml` via `[assets]`).
+The site is a static bundle in `public/`, deployed as a Cloudflare **Pages**
+project (configured in `wrangler.toml` via `pages_build_output_dir`).
 
 ### Option A — Wrangler CLI
 
 ```bash
 npm run build
-npx wrangler deploy
+npx wrangler pages deploy public
 ```
 
 (`npm run deploy` runs both steps.)
 
 ### Option B — Git integration (recommended for CI)
 
-In the Cloudflare dashboard → **Workers & Pages → Create → Import a repository**,
-select this repository. Cloudflare Workers Builds uses:
+In the Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to
+Git**, select this repository and use:
 
-| Setting        | Value             |
-| -------------- | ----------------- |
-| Build command  | `npm run build`   |
-| Deploy command | `npx wrangler deploy` |
+| Setting                | Value           |
+| ---------------------- | --------------- |
+| Build command          | `npm run build` |
+| Build output directory | `public`        |
 
-`wrangler.toml` sets `[assets] directory = "./public"`, so `wrangler deploy`
-uploads the built site (no Worker script needed). Every push then builds and
-deploys automatically.
+`wrangler.toml` sets `pages_build_output_dir = "public"`, so Cloudflare picks up
+the output directory automatically. Pages then builds and deploys on every push —
+no separate deploy command is needed.
 
 ## Data & disclaimer
 

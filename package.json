@@ -7,7 +7,7 @@
     "build:data": "node scripts/build-data.mjs",
     "build": "npm run build:data && node scripts/sync-vendor.mjs",
     "dev": "node scripts/serve.mjs",
-    "deploy": "npm run build && npx wrangler deploy"
+    "deploy": "npm run build && npx wrangler pages deploy public"
   },
   "repository": {
     "type": "git",

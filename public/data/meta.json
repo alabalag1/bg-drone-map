@@ -1,0 +1,18 @@
+{
+  "title": "BGRZoneVersion 30-07-2026",
+  "generatedAt": "2026-08-25T13:34:16.875Z",
+  "total": 881,
+  "skipped": 0,
+  "restrictions": {
+    "PROHIBITED": 214,
+    "REQ_AUTHORISATION": 583,
+    "CONDITIONAL": 84
+  },
+  "reasons": {
+    "PRIVACY": 169,
+    "SENSITIVE": 753,
+    "FOREIGN_TERRITORY": 4,
+    "AIR_TRAFFIC": 85,
+    "NATURE": 4
+  }
+}

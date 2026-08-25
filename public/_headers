@@ -1,0 +1,16 @@
+# Cloudflare Pages headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self)
+
+# Cache immutable, versioned assets aggressively.
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The dataset changes with each release; revalidate.
+/data/*
+  Cache-Control: public, max-age=3600, must-revalidate

@@ -1,0 +1,25 @@
+{
+  "name": "bg-drone-map",
+  "version": "1.0.0",
+  "description": "Interactive map of no-fly drone zones in Bulgaria",
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/build-data.mjs",
+    "build": "npm run build:data && node scripts/sync-vendor.mjs",
+    "dev": "node scripts/serve.mjs",
+    "deploy": "npm run build && wrangler pages deploy public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alabalag1/bg-drone-map.git"
+  },
+  "keywords": ["drone", "no-fly-zone", "bulgaria", "leaflet", "map", "cloudflare"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "leaflet": "1.9.4"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

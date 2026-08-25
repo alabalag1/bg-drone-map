@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <title>Дрон зони България · Bulgaria Drone Zones</title>
+    <meta
+      name="description"
+      content="Интерактивна карта на забранените зони за полети с дронове в България. Interactive map of no-fly drone zones in Bulgaria."
+    />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <button
+          id="menu-toggle"
+          class="icon-btn"
+          type="button"
+          aria-label="Меню"
+          aria-expanded="false"
+          aria-controls="sidebar"
+        >
+          <span class="hamburger" aria-hidden="true"></span>
+        </button>
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">🚁</span>
+          <div class="brand-text">
+            <strong data-i18n="title">Дрон зони · България</strong>
+            <small data-i18n="subtitle">Забранени зони за полети с дронове</small>
+          </div>
+        </div>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="bg" class="lang-btn is-active">BG</button>
+          <button type="button" data-lang="en" class="lang-btn">EN</button>
+        </div>
+      </header>
+
+      <aside id="sidebar" class="sidebar" aria-label="Контроли">
+        <div class="search">
+          <label class="visually-hidden" for="search-input" data-i18n="searchLabel"
+            >Търсене по име</label
+          >
+          <input
+            id="search-input"
+            type="search"
+            autocomplete="off"
+            data-i18n-attr="placeholder:searchPlaceholder"
+            placeholder="Търсене на зона по име…"
+          />
+          <ul id="search-results" class="search-results" hidden></ul>
+        </div>
+
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="restrictionTitle">Ограничение</h2>
+          <div id="restriction-filters" class="filter-group"></div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="reasonTitle">Причина</h2>
+          <div id="reason-filters" class="filter-group"></div>
+        </section>
+
+        <section class="panel panel--actions">
+          <button id="locate-btn" type="button" class="btn btn--full">
+            <span aria-hidden="true">📍</span>
+            <span data-i18n="locate">Намери ме</span>
+          </button>
+          <button id="reset-btn" type="button" class="btn btn--full btn--ghost">
+            <span data-i18n="reset">Изчисти филтрите</span>
+          </button>
+          <p id="counter" class="counter" aria-live="polite"></p>
+        </section>
+
+        <footer class="sidebar-footer">
+          <p data-i18n="disclaimer">
+            Данните са с информационна цел и може да не са актуални. Винаги проверявайте
+            официалните източници преди полет.
+          </p>
+          <p id="dataset-meta" class="dataset-meta"></p>
+        </footer>
+      </aside>
+
+      <main class="map-wrap">
+        <div id="map" role="application" aria-label="Карта на дрон зони"></div>
+        <div id="loading" class="loading">
+          <div class="spinner" aria-hidden="true"></div>
+          <span data-i18n="loading">Зареждане на зони…</span>
+        </div>
+      </main>
+
+      <div id="backdrop" class="backdrop" hidden></div>
+    </div>
+
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="i18n.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

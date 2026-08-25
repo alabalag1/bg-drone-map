@@ -109,10 +109,11 @@ official CAA page for a newer zone dataset:
 - **When:** Mondays 04:00 UTC (plus a manual **Run workflow** button in the
   Actions tab).
 - **What it does:** `scripts/check-updates.mjs` fetches
-  <https://www.caa.bg/bg/category/633/7062>, finds `.json` links, downloads and
-  validates each as a zone dataset, and compares the newest to the current one
-  (tracked in `data/source-manifest.json`). It never downgrades to an older
-  version.
+  <https://www.caa.bg/bg/category/633/7062>, finds `.json` **and `.zip`** links
+  (the CAA attachment is a zip with the JSON inside — extracted in-process with
+  Node's built-in `zlib`, no dependency), validates each payload as a zone
+  dataset, and compares the newest to the current one (tracked in
+  `data/source-manifest.json`). It never downgrades to an older version.
 - **On a newer dataset:** it replaces `data/bgr_zones_source.json`, rebuilds the
   GeoJSON, commits to `main` (Cloudflare redeploys automatically), **and** opens
   a tracking issue labelled `data-update`.

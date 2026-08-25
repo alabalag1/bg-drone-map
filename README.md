@@ -52,7 +52,7 @@ deploy to **Cloudflare Pages**.
 ## Develop locally
 
 ```bash
-npm install        # installs Leaflet (+ wrangler for deploys)
+npm install        # installs Leaflet (wrangler is fetched via npx on deploy)
 npm run build      # regenerate GeoJSON and vendored Leaflet into public/
 npm run dev        # serve public/ at http://localhost:8788
 ```
@@ -75,29 +75,31 @@ property, which the map renders as accurate metric circles.
 
 ## Deploy to Cloudflare Pages
 
-The site is a static bundle in `public/`, so deployment is a one-liner.
+The site is a static bundle in `public/`, deployed as a Cloudflare **Worker
+serving static assets** (configured in `wrangler.toml` via `[assets]`).
 
 ### Option A — Wrangler CLI
 
 ```bash
 npm run build
-npx wrangler pages deploy public
+npx wrangler deploy
 ```
 
 (`npm run deploy` runs both steps.)
 
 ### Option B — Git integration (recommended for CI)
 
-In the Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to
-Git**, select this repository and use:
+In the Cloudflare dashboard → **Workers & Pages → Create → Import a repository**,
+select this repository. Cloudflare Workers Builds uses:
 
-| Setting                | Value            |
-| ---------------------- | ---------------- |
-| Build command          | `npm run build`  |
-| Build output directory | `public`         |
+| Setting        | Value             |
+| -------------- | ----------------- |
+| Build command  | `npm run build`   |
+| Deploy command | `npx wrangler deploy` |
 
-`wrangler.toml` already sets `pages_build_output_dir = "public"`, so Cloudflare
-picks up the output directory automatically. Every push then builds and deploys.
+`wrangler.toml` sets `[assets] directory = "./public"`, so `wrangler deploy`
+uploads the built site (no Worker script needed). Every push then builds and
+deploys automatically.
 
 ## Data & disclaimer
 

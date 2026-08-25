@@ -1,0 +1,65 @@
+name: update-zones
+
+# Weekly check of the Bulgarian CAA page for a newer drone-zone dataset.
+# When a newer file is found it is applied, the GeoJSON is rebuilt and
+# committed to main (Cloudflare Pages redeploys automatically), and a
+# tracking issue is opened.
+
+on:
+  schedule:
+    - cron: "0 4 * * 1" # Mondays at 04:00 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: update-zones
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check CAA page for a newer dataset
+        id: check
+        run: node scripts/check-updates.mjs
+
+      - name: Rebuild GeoJSON
+        if: steps.check.outputs.changed == 'true'
+        run: npm run build
+
+      - name: Commit & push updated data
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bgr_zones_source.json data/source-manifest.json public/data/zones.geojson public/data/meta.json
+          git commit -m "data: update drone zones to ${{ steps.check.outputs.version }}"
+          git push
+
+      - name: Open tracking issue
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = 'A newer drone-zone dataset was detected and applied.';
+            try { body = fs.readFileSync('.github/update-body.md', 'utf8'); } catch {}
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Drone zones updated: ${{ steps.check.outputs.version }}`,
+              body,
+              labels: ['data-update'],
+            });

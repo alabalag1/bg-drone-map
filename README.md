@@ -101,6 +101,29 @@ Git**, select this repository and use:
 the output directory automatically. Pages then builds and deploys on every push —
 no separate deploy command is needed.
 
+## Automatic data updates
+
+A weekly GitHub Actions workflow (`.github/workflows/update-zones.yml`) checks the
+official CAA page for a newer zone dataset:
+
+- **When:** Mondays 04:00 UTC (plus a manual **Run workflow** button in the
+  Actions tab).
+- **What it does:** `scripts/check-updates.mjs` fetches
+  <https://www.caa.bg/bg/category/633/7062>, finds `.json` links, downloads and
+  validates each as a zone dataset, and compares the newest to the current one
+  (tracked in `data/source-manifest.json`). It never downgrades to an older
+  version.
+- **On a newer dataset:** it replaces `data/bgr_zones_source.json`, rebuilds the
+  GeoJSON, commits to `main` (Cloudflare redeploys automatically), **and** opens
+  a tracking issue labelled `data-update`.
+
+To change the cadence, edit the `cron` in the workflow. To test the detection
+logic without network access:
+
+```bash
+node scripts/check-updates.mjs --self-test
+```
+
 ## Data & disclaimer
 
 Source: Bulgarian drone-zone dataset **"BGRZoneVersion 30-07-2026"** (881

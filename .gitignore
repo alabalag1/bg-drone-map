@@ -5,3 +5,6 @@ dist/
 *.log
 .env
 .dev.vars
+
+# Transient file written by scripts/check-updates.mjs at run time
+.github/update-body.md

@@ -52,7 +52,7 @@ deploy to **Cloudflare Pages**.
 ## Develop locally
 
 ```bash
-npm install        # installs Leaflet (+ wrangler for deploys)
+npm install        # installs Leaflet (wrangler is fetched via npx on deploy)
 npm run build      # regenerate GeoJSON and vendored Leaflet into public/
 npm run dev        # serve public/ at http://localhost:8788
 ```
